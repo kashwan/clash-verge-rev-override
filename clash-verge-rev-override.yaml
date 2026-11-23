@@ -11,20 +11,30 @@ ipv6: false
 # ---------- 2. DNS：国内直查、国外走代理，杜绝泄露 ----------
 dns:
   enable: true
+  prefer-h3: false
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/16
   fake-ip-filter-mode: blacklist
   # 需要真实 IP 的域名（局域网、NTP、系统探测、国内站）
   fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - "*.localdomain"
-    - "+.msftconnecttest.com"
-    - "+.msftncsi.com"
+    - "+.lan"
+    - "+.local"
+    - "+.localhost"
+    - "+.home.arpa"
     - "localhost.ptlogin2.qq.com"
     - "time.*.com"
+    - "time.*.gov"
     - "ntp.*.com"
+    - "pool.ntp.org"
+    - "+.push.apple.com"
+    - "mesu.apple.com"
+    - "swscan.apple.com"
+    - "captive.apple.com"
+    - "connectivitycheck.gstatic.com"
+    - "connectivitycheck.android.com"
+    - "www.msftconnecttest.com"
+    - "www.msftncsi.com"
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
   # 仅用于解析下面 DoH 域名本身，必须是 IP，不能走代理
@@ -54,6 +64,7 @@ sniffer:
   enable: true
   force-dns-mapping: true
   parse-pure-ip: true
+  override-destination: true
   sniff:
     HTTP:
       ports: [80, 8080-8880]
@@ -158,8 +169,11 @@ prepend-proxy-groups:
     include-all: true
     url: "https://www.gstatic.com/generate_204"
     interval: 300
+    timeout: 5000
     tolerance: 50
     lazy: true
+    max-failed-times: 3
+    expected-status: 204
   - name: 🛰 自选节点
     type: select
     include-all: true
