@@ -45,6 +45,24 @@ dns:
 
 以及 `dns.fake-ip-filter` 包含完整列表、`proxy-groups` 里有 `🛰 自选节点`。如果 `nameserver` 不是上面两项，说明「DNS 覆写」还开着。
 
+## Windows 一键检查
+
+仓库附带 [`test-windows.ps1`](./test-windows.ps1)，只读检查，不改任何配置。先在 Verge 中开启 **TUN 模式**，然后：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\test-windows.ps1
+```
+
+检查项：
+
+- `google.com` 是否解析为 `198.18.x.x`（fake-ip / DNS 劫持生效）
+- `baidu.com`、`time.windows.com` 是否返回真实 IP（fake-ip-filter 生效）
+- 代理出口与国内直连出口是否不同（分流生效）
+- 是否存在 IPv6 出口
+- 规则集能否正常下载
+
+DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserleaks.com/webrtc 确认。
+
 ## 策略组
 
 | 组名 | 类型 | 作用 |
