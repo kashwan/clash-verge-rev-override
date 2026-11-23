@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 # Clash Verge Rev 全局覆写配置 - Windows 只读检查脚本
 # 前提：已在 Verge 中开启 TUN 模式，并关闭「DNS 覆写」和「IPv6」
 # 用法：
