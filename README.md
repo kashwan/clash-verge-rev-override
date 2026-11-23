@@ -2,7 +2,7 @@
 
 适配 [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev) 的**全局覆写配置**：防 DNS 泄露 + 国内外分流。
 
-配置文件：[`clash-verge-rev-override.yaml`](./clash-verge-rev-override.yaml)（Clash Verge Rev）；FlClash 请用 [`flclash-override.js`](./flclash-override.js)。
+配置文件：[`clash-verge-rev-override.yaml`](./clash-verge-rev-override.yaml)
 
 > 这是 **Merge（全局扩展配置）**，不是订阅链接。它会在每次订阅更新后自动重新应用，不需要手动改订阅。
 
@@ -31,20 +31,6 @@ Clash Verge Rev 的「应用设置」优先级高于 Merge，以下两项不关�
 2. 点击右上角 **全局扩展配置**（旧版叫「全局扩展覆写配置」）。
 3. 切到 **Merge** 标签，粘贴 `clash-verge-rev-override.yaml` 的全部内容。
 4. 保存，等待内核重载。
-
-## FlClash（Android）
-
-FlClash **不读取** Clash Verge 的 Merge YAML，它的覆写是 JavaScript 脚本（`main(config)` 返回改好的 config）。所以 FlClash 请用 [`flclash-override.js`](./flclash-override.js)，内容与上面的 YAML 等价：
-
-1. 工具 → 进阶配置 → **脚本** → 新建，粘贴脚本内容并保存。
-2. 长按（或右键）订阅 → **扩展** → 选中这个脚本，按右上角提示确认应用。
-3. 打开 TUN 模式。
-
-注意：
-
-- 0.9.4 起 FlClash 的 DNS 覆写改为按字段对每份配置生效。请清空「工具 → 进阶配置 → DNS」里填过的字段，尤其 `proxy-server-nameserver` 留空会覆盖脚本里的同名值并导致内核报错。
-- 脚本会整体替换 `dns`、`sniffer`、`rule-providers`、`proxy-groups`、`rules`，并设置顶层 `ipv6: false`；节点仍由 `include-all` 自动吸收。
-- FlClash 版脚本只做了静态检查，未做真机验证；异常时请查看连接页的规则命中。
 
 ## 验证
 
@@ -130,5 +116,4 @@ DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserle
 
 - 规则集地址来自 [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)。
 - 设计参考了 [qichiyuhub/rule](https://github.com/qichiyuhub/rule) 与 [n0de-sudo/Perfect-Rules](https://github.com/n0de-sudo/Perfect-Rules)。
-- Clash Verge Rev 的 YAML 配置与 Windows 检查脚本已真机验证：fake-ip、fake-ip-filter、国内外分流、IPv6 屏蔽、规则集下载均通过；DNS 与 WebRTC 请以网站实测结果为准。
-- FlClash 的 JS 脚本仅为 YAML 的等价移植，未做真机验证。
+- 配置与检查脚本已在 Windows（PowerShell 5.1）+ Clash Verge Rev 真机验证：fake-ip、fake-ip-filter、国内外分流、IPv6 屏蔽、规则集下载均通过；DNS 与 WebRTC 请以网站实测结果为准。
