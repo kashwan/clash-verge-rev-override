@@ -1,8 +1,9 @@
 # ============================================================
-# Clash Verge Rev 覆写配置（Merge）
+# Clash Verge Rev 全局覆写配置（Merge）
 # 用途：防 DNS 泄露 + 国内外分流
-# 用法：订阅页 -> 右键订阅 -> 编辑 -> Merge，粘贴本文件全部内容
-# 说明：dns 段覆盖订阅自带 DNS；prepend-* 在订阅规则前插入，优先级最高
+# 用法：订阅页 -> 全局扩展配置 -> Merge，粘贴本文件全部内容
+# 说明：本文件为全局覆写，会整体替换订阅自带的 proxy-groups 和 rules
+#       节点仍通过 include-all 自动吸收，不需要手动维护
 # ============================================================
 
 # ---------- 1. 关闭 IPv6（避免 IPv6 绕过代理泄露真实地址） ----------
@@ -76,7 +77,7 @@ sniffer:
     - "+.push.apple.com"
 
 # ---------- 4. 规则集 ----------
-prepend-rule-providers:
+rule-providers:
   private_domain:
     type: http
     behavior: domain
@@ -162,8 +163,8 @@ prepend-rule-providers:
     proxy: 🛰 自选节点
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/netflix.mrs"
 
-# ---------- 5. 策略组（include-all 自动吸收订阅里的所有节点） ----------
-prepend-proxy-groups:
+# ---------- 5. 策略组（整体替换；include-all 自动吸收订阅所有节点） ----------
+proxy-groups:
   - name: ⚡ 自动选择
     type: url-test
     include-all: true
@@ -194,8 +195,8 @@ prepend-proxy-groups:
     type: select
     proxies: [REJECT, DIRECT]
 
-# ---------- 6. 分流规则（插在订阅规则之前，优先级最高） ----------
-prepend-rules:
+# ---------- 6. 分流规则（整体替换） ----------
+rules:
   - RULE-SET,private_domain,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,ads_domain,🛑 广告
@@ -208,4 +209,4 @@ prepend-rules:
   - RULE-SET,netflix_ip,🎬 流媒体,no-resolve
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,cn_ip,DIRECT,no-resolve
-  # 未命中以上规则的，交给订阅原有的 MATCH 规则处理
+  - MATCH,🛰 自选节点
