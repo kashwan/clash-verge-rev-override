@@ -106,6 +106,10 @@ DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserle
 
 可尝试把 `sniffer.override-destination` 改为 `false` 后重载。
 
+**在 browserleaks 测 WebRTC，Remote IP 显示的是本地 IP？**
+
+`browserleaks.com` 和 `ipip.net` 都在上游 `cn` 规则集里，会命中 `cn_domain → DIRECT`，所以页面本身走直连；而 WebRTC 的 STUN 请求发往国外服务器，走代理。两行 IP 不一致是正常的，关键看 Local IP 是否为 `-`。要测代理下的 WebRTC，换用不在 cn 列表的站点。
+
 ## 说明
 
 - 规则集地址来自 [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)。
