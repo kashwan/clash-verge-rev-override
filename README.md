@@ -61,6 +61,8 @@ powershell -ExecutionPolicy Bypass -File .\test-windows.ps1
 - 是否存在 IPv6 出口
 - 规则集能否正常下载
 
+`国内出口` 应显示你本地运营商的出口 IP（如 `112.x.x.x`），与 `代理出口` 不同即分流生效。手工查 IP 请用 `curl.exe`——PowerShell 里的 `curl` 是 `Invoke-WebRequest` 的别名，返回的是解析后的对象而非原始响应。
+
 DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserleaks.com/webrtc 确认。
 
 ## 策略组
@@ -114,4 +116,4 @@ DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserle
 
 - 规则集地址来自 [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)。
 - 设计参考了 [qichiyuhub/rule](https://github.com/qichiyuhub/rule) 与 [n0de-sudo/Perfect-Rules](https://github.com/n0de-sudo/Perfect-Rules)。
-- 配置仅在 YAML 结构层面检查过，未做真机联网测试；请以自己的实际网络环境为准。
+- 配置与检查脚本已在 Windows（PowerShell 5.1）+ Clash Verge Rev 真机验证：fake-ip、fake-ip-filter、国内外分流、IPv6 屏蔽、规则集下载均通过；DNS 与 WebRTC 请以网站实测结果为准。
