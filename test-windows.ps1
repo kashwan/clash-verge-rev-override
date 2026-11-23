@@ -26,12 +26,17 @@ function Get-A([string]$name) {
 }
 
 function Get-Text([string]$url, [string]$extra = '') {
+  # 走临时文件并按 UTF-8 读取，避免 PS 5.1 用 GBK 解码 curl 的 UTF-8 输出时吞掉字符
+  $tmp = [System.IO.Path]::GetTempFileName()
   try {
-    $curlArgs = @('-s', '--max-time', '12')
+    $curlArgs = @('-s', '--max-time', '12', '-o', $tmp)
     if ($extra) { $curlArgs += $extra }
     $curlArgs += $url
-    (& curl.exe @curlArgs 2>$null)
-  } catch { '' }
+    & curl.exe @curlArgs 2>$null | Out-Null
+    Get-Content -Raw -Encoding UTF8 $tmp
+  } catch { '' } finally {
+    Remove-Item $tmp -ErrorAction SilentlyContinue
+  }
 }
 
 Info "1) DNS / fake-ip"
