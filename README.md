@@ -12,7 +12,7 @@
 - **Fake-IP**：`198.18.0.0/16`，并为局域网、NTP、系统联网检测、Apple 更新等域名保留真实 IP。
 - **域名嗅探**：从 TLS SNI / HTTP Host 还原真实域名，按 IP 直连的流量也能命中域名规则。
 - **全局覆写**：整体替换订阅自带的 `proxy-groups` 和 `rules`，节点通过 `include-all` 自动吸收，不写死任何节点名。
-- **规则集**：使用 MetaCubeX 的 `mrs` 规则集，覆盖广告、AI、YouTube、Netflix、TikTok、Telegram、国内域名/IP、私有地址。
+- **规则集**：使用 MetaCubeX 的 `mrs` 规则集，覆盖广告域名与广告 IP、AI、YouTube、Netflix、TikTok、Telegram、国内域名/IP、私有地址。
 
 ## 使用前提（重要）
 
@@ -83,7 +83,7 @@ DNS 泄露和 WebRTC 仍需手动打开 ipleak.net、dnsleaktest.com、browserle
 按顺序匹配：
 
 1. 私有域名 / 私有 IP → `DIRECT`
-2. 广告 → `🛑 广告`
+2. 广告域名 / 广告 IP → `🛑 广告`（IP 规则带 `no-resolve`）
 3. AI → `🤖 AI 分流`
 4. YouTube / Netflix / TikTok → `🎬 流媒体`
 5. Telegram 域名 / IP → `📲 电报`
